@@ -4,10 +4,12 @@ import './index.css'
 import App from './App.tsx'
 import axios from 'axios';
 
+axios.defaults.baseURL = "https://salpaedu-chatbot.onrender.com";
+
+
 // Set global base URL
 // Use environment variable if available (Production), otherwise fallback to relative path (Local Proxy)
-axios.defaults.baseURL = import.meta.env.VITE_API_URL || '/api';
-console.log('API Base URL set to:', axios.defaults.baseURL);
+
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
