@@ -2,28 +2,29 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+
 import chatRoutes from './routes/chat.routes';
 import authRoutes from './routes/auth.routes';
 import knowledgeRoutes from './routes/knowledge.routes';
 import leadRoutes from './routes/lead.routes';
 
-// Load env vars
+// ✅ Load env vars FIRST
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// ✅ Middleware
 app.use(cors({
-    origin: '*', // Allow all origins for now
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.use(express.json());
 
-// Routes
+// ✅ Routes
 app.get('/health', (req, res) => {
-    res.json({ status: 'ok', timestamp: new Date() });
+  res.json({ status: 'ok', timestamp: new Date() });
 });
 
 app.use('/api', chatRoutes);
@@ -31,32 +32,26 @@ app.use('/api/auth', authRoutes);
 app.use('/api/knowledge', knowledgeRoutes);
 app.use('/api/leads', leadRoutes);
 
-// Database Connection
-const connectDB = async () => {
-    try {
-        const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/ai-chatbot';
-        await mongoose.connect(mongoURI);
-        console.log('MongoDB Connected');
-    } catch (err) {
-        console.error('MongoDB Connection Error:', err);
-        // Do not exit, keep server running for Admin to work
-        // process.exit(1); 
-    }
+// ✅ Start server AFTER DB connects
+const start = async () => {
+  const MONGODB_URI = process.env.MONGODB_URI;
+
+  if (!MONGODB_URI) {
+    console.error('❌ MONGODB_URI not found in environment variables');
+    process.exit(1);
+  }
+
+  try {
+    await mongoose.connect(MONGODB_URI);
+    console.log('✅ MongoDB Connected');
+  } catch (err) {
+    console.error('❌ MongoDB Connection Error:', err);
+    process.exit(1);
+  }
+
+  app.listen(PORT, () => {
+    console.log(`✅ Server running on port ${PORT}`);
+  });
 };
 
-// Start Server
-const startServer = async () => {
-    // Start listening immediately
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
-
-    // Try to connect to DB in background
-    try {
-        await connectDB();
-    } catch (err) {
-        console.error('Initial DB Connection Failed (Will retry or run without DB):', err);
-    }
-};
-
-startServer();
+start();
