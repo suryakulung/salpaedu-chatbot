@@ -32,6 +32,12 @@ app.use('/api/auth', authRoutes);
 app.use('/api/knowledge', knowledgeRoutes);
 app.use('/api/leads', leadRoutes);
 
+// ✅ Debug Catch-all
+app.use('*', (req, res) => {
+  console.log(`❌ 404 Hit: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ error: 'Route not found', path: req.originalUrl, method: req.method });
+});
+
 // ✅ Start server AFTER DB connects
 const start = async () => {
   const MONGODB_URI = process.env.MONGODB_URI;
@@ -50,7 +56,7 @@ const start = async () => {
   }
 
   app.listen(PORT, () => {
-    console.log(`✅ Server running on port ${PORT}`);
+    console.log(`✅ Server running on port ${PORT} (v2)`);
   });
 };
 
