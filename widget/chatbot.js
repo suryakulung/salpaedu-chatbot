@@ -1,7 +1,9 @@
 (function () {
     // Configuration
-   const CONFIG = {
-        apiBaseUrl: 'https://salpaedu-chatbot.onrender.com/api', // Render Backend URL
+    const CONFIG = {
+        // apiBaseUrl: 'http://localhost:5000/api', // Local Dev
+        // apiBaseUrl: 'https://salpaedu-chatbot.onrender.com/api', // Old Render Backend
+        apiBaseUrl: 'https://chatbot-server-v4cu.onrender.com/api', // New Render Backend (Working)
         botName: 'AI Assistant',
         primaryColor: '#007bff'
     };

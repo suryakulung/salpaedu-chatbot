@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.tsx'
 import axios from 'axios';
 
-axios.defaults.baseURL = "https://salpaedu-chatbot.onrender.com/api";
+axios.defaults.baseURL = "https://chatbot-server-v4cu.onrender.com/api";
 
 
 // Set global base URL
