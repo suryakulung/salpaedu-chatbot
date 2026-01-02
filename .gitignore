@@ -1,0 +1,16 @@
+# Global ignores
+admin.zip
+server/salpaedu-chatbot/
+
+# Node
+node_modules/
+server/node_modules/
+
+# Build
+dist/
+server/dist/
+
+# Env
+.env
+server/.env
+admin/.env.production
