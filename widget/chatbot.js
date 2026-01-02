@@ -1,11 +1,11 @@
 (function () {
     // Configuration
-    const CONFIG = {
-        apiBaseUrl: 'https://chatbot-server-v4cu.onrender.com/api', // Render Backend URL
+   const CONFIG = {
+        apiBaseUrl: 'https://salpaedu-chatbot.onrender.com/api', // Render Backend URL
         botName: 'AI Assistant',
         primaryColor: '#007bff'
     };
-
+    let sessionId = null;
     // Create Widget Container
     const createWidget = () => {
         const container = document.createElement('div');
