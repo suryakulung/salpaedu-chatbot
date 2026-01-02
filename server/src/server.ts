@@ -34,7 +34,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date() });
+  const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+  res.json({
+    status: 'ok',
+    timestamp: new Date(),
+    db_status: dbStatus
+  });
 });
 
 app.use('/api', chatRoutes);
@@ -48,13 +53,19 @@ app.use('*', (req, res) => {
   res.status(404).json({ error: 'Route not found', path: req.originalUrl, method: req.method });
 });
 
-// ✅ Start server AFTER DB connects
+// ✅ Start server
 const start = async () => {
+  // Start listening immediately
+  app.listen(PORT, () => {
+    console.log(`✅ Server running on port ${PORT} (v3 - Resilient)`);
+  });
+
   const MONGODB_URI = process.env.MONGODB_URI;
 
   if (!MONGODB_URI) {
     console.error('❌ MONGODB_URI not found in environment variables');
-    process.exit(1);
+    // Don't exit, just log error so server stays up
+    return;
   }
 
   try {
@@ -62,12 +73,8 @@ const start = async () => {
     console.log('✅ MongoDB Connected');
   } catch (err) {
     console.error('❌ MongoDB Connection Error:', err);
-    process.exit(1);
+    // Don't exit, allow server to keep running for health checks
   }
-
-  app.listen(PORT, () => {
-    console.log(`✅ Server running on port ${PORT} (v2)`);
-  });
 };
 
 start();
