@@ -7,12 +7,14 @@
     "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-
     "strict": false,
     "skipLibCheck": true,
     "noImplicitAny": false,
-    "types": ["node", "express", "cors", "jsonwebtoken"]
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
