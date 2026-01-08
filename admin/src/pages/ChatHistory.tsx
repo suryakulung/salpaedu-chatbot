@@ -8,7 +8,7 @@ const ChatHistory = () => {
         const fetchHistory = async () => {
             const token = localStorage.getItem('token');
             try {
-                const { data } = await axios.get('/chat/history', {
+                const { data } = await axios.get('/history', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setSessions(data);

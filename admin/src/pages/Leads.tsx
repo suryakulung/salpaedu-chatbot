@@ -8,7 +8,7 @@ const Leads = () => {
         const fetchLeads = async () => {
             const token = localStorage.getItem('token');
             try {
-                const { data } = await axios.get('/api/leads', {
+                const { data } = await axios.get('/leads', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setLeads(data);
